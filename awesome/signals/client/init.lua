@@ -9,11 +9,11 @@ client.connect_signal('mouse::enter', function(c)
 end)
 
 --rounded corners
-client.connect_signal("manage", function (c)
-    c.shape = function(cr,w,h)
-        gears.shape.rounded_rect(cr,w,h,8)
-    end
-end)
+--client.connect_signal("manage", function (c)
+--    c.shape = function(cr,w,h)
+--        gears.shape.rounded_rect(cr,w,h,8)
+--    end
+--end)
 
 client.connect_signal('request::titlebars', function(c)
    -- buttons for the titlebar

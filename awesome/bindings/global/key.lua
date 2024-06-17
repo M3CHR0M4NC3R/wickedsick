@@ -326,6 +326,13 @@ awful.keyboard.append_global_keybindings{
    },
    awful.key{
       modifiers   = {},
+      key         = 'Print',
+      description = 'screenshot',
+      group       = 'system',
+      on_press    = function() awful.spawn('flameshot gui', false) end,
+   },
+   awful.key{
+      modifiers   = {},
       key         = 'XF86MonBrightnessUp',
       description = 'increase brightness',
       group       = 'system',

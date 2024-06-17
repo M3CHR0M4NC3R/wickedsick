@@ -4,6 +4,8 @@ local awful = require'awful'
 local hotkeys_popup = require'awful.hotkeys_popup'
 local beautiful = require'beautiful'
 local wibox = require'wibox'
+local xresources = require("beautiful.xresources")
+local dpi = xresources.apply_dpi
 
 --import battery widget from external library
 local battery_widget = require('modules.battery-widget')
@@ -122,6 +124,26 @@ function _M.create_tasklist(s)
    return awful.widget.tasklist{
       screen = s,
       filter = awful.widget.tasklist.filter.currenttags,
+      layout   = {
+        spacing = dpi(5),
+        layout  = wibox.layout.fixed.horizontal
+      },
+      --widget_template = {
+      --  {
+      --      {
+      --          {
+      --              id     = "text_role",
+      --              widget = wibox.widget.textbox,
+      --          },
+      --          layout = wibox.layout.fixed.horizontal,
+      --      },
+      --      left  = dpi(3),
+      --      right = dpi(3),
+      --      widget = wibox.container.margin
+      --  },
+      --  id     = "background_role",
+      --  widget = wibox.container.background,
+      --},
       buttons = {
          awful.button{
             modifiers = {},
@@ -168,7 +190,6 @@ function _M.create_wibox(s)
          -- right widgets
          {
             layout = wibox.layout.fixed.horizontal,
-            _M.keyboardlayout,
             battery_widget {adapter = "BAT0",},
             wibox.widget.systray(),
             _M.textclock,

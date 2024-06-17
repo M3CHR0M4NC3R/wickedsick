@@ -5,7 +5,7 @@ local mod = require'bindings.mod'
 client.connect_signal('request::default_keybindings', function()
    awful.keyboard.append_client_keybindings{
       awful.key{
-         modifiers   = {mod.super, mod.shift},
+         modifiers   = {mod.super, mod.ctrl},
          key         = 'f',
          description = 'toggle fullscreen',
          group       = 'client',

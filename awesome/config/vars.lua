@@ -25,7 +25,7 @@ _M.tags = {
    {name='󰂺', layouts=_M.layouts},
    {name='5', layouts=_M.layouts},
    {name='6', layouts=_M.layouts},
-   {name='', layouts=_M.layouts}
+   {name='󰢷', layouts=_M.layouts}
 }
 
 local function get_tag_names()
