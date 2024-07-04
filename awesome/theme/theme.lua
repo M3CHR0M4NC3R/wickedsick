@@ -16,29 +16,34 @@ local gfs = require("gears.filesystem")
 local theme_path = gfs.get_configuration_dir() .. 'theme/'
 
 local theme = {}
+local usersettings = require('theme.usersettings')
+local colors = usersettings.colorscheme
+theme.colors = usersettings.colorscheme
 
-theme.fontsize      = tostring(16)
-theme.font          = "CozetteHiDpi, Symbols Nerd Font Mono " .. theme.fontsize
+theme.font = usersettings.fontstyle .." ".. usersettings.fontsize
 
-theme.bg_normal     = "#222222"
-theme.bg_focus      = "#535d6c"
-theme.bg_urgent     = "#ff0000"
+theme.bg_normal     = colors.surface0
+theme.bg_focus      = colors.base
+theme.bg_urgent     = colors.red
 theme.bg_minimize   = "#444444"
 theme.bg_systray    = theme.bg_normal
 
-theme.fg_normal     = "#aaaaaa"
-theme.fg_focus      = "#ffffff"
-theme.fg_urgent     = "#ffffff"
-theme.fg_minimize   = "#ffffff"
+theme.fg_normal     = colors.subtext1
+theme.fg_focus      = colors.text
+theme.fg_urgent     = colors.red
+theme.fg_minimize   = colors.subtext2
 
-theme.statusbar_height = 30
+theme.statusbar_height = dpi(30)
+theme.statusbar_background = colors.crust .. usersettings.opacity
 
-theme.useless_gap         = 0
-theme.border_width        = dpi(3)
+theme.hotkeys_modifiers_fg = colors.blue
+
+theme.useless_gap         = dpi(5)
+theme.border_width        = dpi(2)
 --theme.border_color_normal = "#000000"
 theme.border_color_normal = theme.bg_normal
-theme.border_color_active = "#535d6c"
-theme.border_color_marked = "#91231c"
+theme.border_color_active = colors.text
+theme.border_color_marked = colors.red
 
 -- There are other variable sets
 -- overriding the default one when
@@ -46,7 +51,7 @@ theme.border_color_marked = "#91231c"
 -- taglist_[bg|fg]_[focus|urgent|occupied|empty|volatile]
 -- tasklist_[bg|fg]_[focus|urgent]
 theme.tasklist_disable_icon = true
-theme.tasklist_shape_border_width = theme.border_width/2
+theme.tasklist_shape_border_width = theme.border_width
 theme.tasklist_border_color = theme.bg_normal
 theme.tasklist_align = "center"
 theme.tasklist_maximized = ""
@@ -78,7 +83,8 @@ theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
 -- menu_[border_color|border_width]
 theme.menu_submenu_icon = theme_path.."/submenu.png"
 theme.menu_height = dpi(26)
-theme.menu_width  = dpi(150)
+theme.menu_width  = dpi(200)
+theme.menu_border_color = theme.border_color_active
 
 -- You can add as many variables as
 -- you wish and access them by using
@@ -138,10 +144,11 @@ theme.layout_cornerse = theme_path.."/layouts/cornersew.png"
 theme.awesome_icon = theme_assets.awesome_icon(
     theme.menu_height, theme.bg_focus, theme.fg_focus
 )
+theme.arch_icon = theme_path .. "icons/archicon.svg"
 
 -- Define the icon theme for application icons. If not set then the icons
 -- from /usr/share/icons and /usr/share/icons/hicolor will be used.
-theme.icon_theme = nil
+theme.icon_theme = "papirus-dark"
 
 -- Set different colors for urgent notifications.
 rnotification.connect_signal('request::rules', function()

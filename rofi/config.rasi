@@ -1,0 +1,73 @@
+@import "~/.config/rofi/catppuccin-frappe.rasi"
+configuration {
+	font: "JetBrains Mono 16";
+	terminal: "alacritty";
+	show-icons: true;
+	icon-theme: "Papirus-Dark";
+	modi: "drun,window";
+	display-drun: "󰀻 Applications";
+	display-window: " Windows";
+	display-emoji: "😃 Emojis";
+	drun-display-format:        "{name}";
+	window-format:              "{w} · {c} · {t}";
+}
+element-icon {
+	size: 5%;
+}
+mainbox {
+	children: ["inputbar", "listview"];
+	//children: ["mode-switcher", "inputbar", "listview"];
+}
+window {
+	width: 30%;
+	border: 0;
+	padding: 1%;
+	border-radius: 15;
+	dynamic: true;
+	require-input: false;
+	transparency: "real";
+	location: center;
+	anchor: north;
+	y-offset: -10%;
+}
+mode-switcher{
+	spacing: 1%;
+}
+button {
+	padding: 0.5%;
+	border-radius: 15;
+	border: 3;
+	border-color: @color7;
+}
+button.selected {
+	border-color: @selected-normal-background;
+}
+listview {
+	dynamic: true;
+	lines: 5;
+	fixed-height: false;
+	border: 0;
+}
+element {
+	spacing: 1%;
+	border-radius: 15;
+}
+element-text{
+	horizontal-align: 0;
+	vertical-align: 0.5;
+	padding: 0.5%;
+}
+prompt{
+	enabled: true;
+}
+inputbar {
+	children: ["textbox-prompt-colon", "entry"];
+}
+entry {
+	placeholder: "Type to search";
+}
+textbox-prompt-colon { 
+	enabled: true; 
+	expand: false; 
+	str: " "; 
+}

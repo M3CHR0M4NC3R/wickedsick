@@ -4,6 +4,7 @@ local wibox = require'wibox'
 
 local vars = require'config.vars'
 local widgets = require'widgets'
+local freedesktop = require("modules.freedesktop")
 
 --screen.connect_signal('request::wallpaper', function(s)
 --   awful.wallpaper{
@@ -31,5 +32,6 @@ screen.connect_signal('request::desktop_decoration', function(s)
    s.layoutbox = widgets.create_layoutbox(s)
    s.taglist   = widgets.create_taglist(s)
    s.tasklist  = widgets.create_tasklist(s)
-   s.wibox     = widgets.create_wibox(s)
+   s.wibox_top     = widgets.create_wibox_top(s)
+   s.wibox_bottom     = widgets.create_wibox_bottom(s)
 end)

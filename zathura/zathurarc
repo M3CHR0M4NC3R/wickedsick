@@ -1,0 +1,5 @@
+set recolor "true"
+set default-bg rgba(0,0,0,0.9)
+set adjust-open "width"
+include catppuccin-frappe
+set recolor-lightcolor rgba(0,0,0,0)

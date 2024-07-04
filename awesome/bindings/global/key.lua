@@ -3,6 +3,7 @@ local hotkeys_popup = require'awful.hotkeys_popup'
 require'awful.hotkeys_popup.keys'
 local menubar = require'menubar'
 local revelation = require('modules.revelation')
+local switcher = require('modules.awesome-switcher')
 
 local apps = require'config.apps'
 local mod = require'bindings.mod'
@@ -70,7 +71,8 @@ awful.keyboard.append_global_keybindings{
       key         = 'f',
       description = 'open file browser',
       group       = 'launcher',
-      on_press    = function() awful.spawn(apps.fileapp) end,
+      --on_press    = function() awful.spawn(apps.fileapp) end,
+      on_press    = function() awful.spawn(apps.terminal_folder_cmd) end,
    },
    awful.key{
       modifiers   = {mod.super},
@@ -82,9 +84,10 @@ awful.keyboard.append_global_keybindings{
    awful.key{
       modifiers   = {mod.super},
       key         = 'space',
-      description = 'show the menubar',
+      description = 'show the application launcher',
       group       = 'launcher',
-      on_press    = function() menubar.show() end,
+      --on_press    = function() menubar.show() end,
+      on_press    = function() awful.spawn('rofi -show drun') end,
    },
 }
 
@@ -117,10 +120,31 @@ awful.keyboard.append_global_keybindings{
 awful.keyboard.append_global_keybindings{
    awful.key{
       modifiers   = {mod.super},
+      key         = 'h',
+      description = 'focus next by index',
+      group       = 'client',
+      on_press    = function() awful.client.focus.bydirection("left") end,
+   },
+   awful.key{
+      modifiers   = {mod.super},
       key         = 'j',
       description = 'focus next by index',
       group       = 'client',
-      on_press    = function() awful.client.focus.byidx(1) end,
+      on_press    = function() awful.client.focus.bydirection("down") end,
+   },
+   awful.key{
+      modifiers   = {mod.super},
+      key         = 'k',
+      description = 'focus next by index',
+      group       = 'client',
+      on_press    = function() awful.client.focus.bydirection("up") end,
+   },
+   awful.key{
+      modifiers   = {mod.super},
+      key         = 'l',
+      description = 'focus next by index',
+      group       = 'client',
+      on_press    = function() awful.client.focus.bydirection("right") end,
    },
    awful.key{
       modifiers   = {mod.super},
@@ -130,23 +154,22 @@ awful.keyboard.append_global_keybindings{
       on_press    = revelation,
    },
    awful.key{
-      modifiers   = {mod.super},
-      key         = 'k',
-      description = 'focus previous by index',
-      group       = 'client',
-      on_press    = function() awful.client.focus.byidx(-1) end,
+      modifiers = {mod.super},
+      key = 'Tab',
+      description = 'window switcher',
+      group = 'client',
+      on_press = function()
+          switcher.switch( 1, "Mod4", "Super_L", "Shift", "Tab")
+      end
    },
    awful.key{
-      modifiers   = {mod.super},
-      key         = 'Tab',
-      description = 'go back',
-      group       = 'client',
-      on_press    = function()
-         awful.client.focus.history.previous()
-         if client.focus then
-            client.focus:raise()
-         end
-      end,
+      modifiers = {mod.super, "Shift"},
+      key = 'Tab',
+      description = 'window switcher',
+      group = 'client',
+      on_press = function()
+          switcher.switch( -1, "Mod4", "Super_L", "Shift", "Tab")
+      end
    },
    awful.key{
       modifiers   = {mod.super, mod.ctrl},
@@ -180,17 +203,31 @@ awful.keyboard.append_global_keybindings{
 awful.keyboard.append_global_keybindings{
    awful.key{
       modifiers   = {mod.super, mod.shift},
-      key         = 'j',
-      description = 'swap with next client by index',
+      key         = 'h',
+      description = 'swap window',
       group       = 'client',
-      on_press    = function() awful.client.swap.byidx(1) end,
+      on_press    = function() awful.client.swap.bydirection("left") end,
+   },
+   awful.key{
+      modifiers   = {mod.super, mod.shift},
+      key         = 'j',
+      description = 'swap window',
+      group       = 'client',
+      on_press    = function() awful.client.swap.bydirection("down") end,
    },
    awful.key{
       modifiers   = {mod.super, mod.shift},
       key         = 'k',
-      description = 'swap with previous client by index',
+      description = 'swap window',
       group       = 'client',
-      on_press    = function() awful.client.swap.byidx(-1) end,
+      on_press    = function() awful.client.swap.bydirection("up") end,
+   },
+   awful.key{
+      modifiers   = {mod.super, mod.shift},
+      key         = 'l',
+      description = 'swap window',
+      group       = 'client',
+      on_press    = function() awful.client.swap.bydirection("right") end,
    },
    awful.key{
       modifiers   = {mod.super},
@@ -199,34 +236,34 @@ awful.keyboard.append_global_keybindings{
       group       = 'client',
       on_press    = awful.client.urgent.jumpto,
    },
-   awful.key{
-      modifiers   = {mod.super},
-      key         = 'l',
-      description = 'increase master width factor',
-      group       = 'layout',
-      on_press    = function() awful.tag.incmwfact(0.05) end,
-   },
-   awful.key{
-      modifiers   = {mod.super},
-      key         = 'h',
-      description = 'decrease master width factor',
-      group       = 'layout',
-      on_press    = function() awful.tag.incmwfact(-0.05) end,
-   },
-   awful.key{
-      modifiers   = {mod.super, mod.shift},
-      key         = 'h',
-      description = 'increase the number of master clients',
-      group       = 'layout',
-      on_press    = function() awful.tag.incnmaster(1, nil, true) end,
-   },
-   awful.key{
-      modifiers   = {mod.super, mod.shift},
-      key         = 'l',
-      description = 'decrease the number of master clients',
-      group       = 'layout',
-      on_press    = function() awful.tag.incnmaster(-1, nil, true) end,
-   },
+   --awful.key{
+   --   modifiers   = {mod.super},
+   --   key         = 'l',
+   --   description = 'increase master width factor',
+   --   group       = 'layout',
+   --   on_press    = function() awful.tag.incmwfact(0.05) end,
+   --},
+   --awful.key{
+   --   modifiers   = {mod.super},
+   --   key         = 'h',
+   --   description = 'decrease master width factor',
+   --   group       = 'layout',
+   --   on_press    = function() awful.tag.incmwfact(-0.05) end,
+   --},
+   --awful.key{
+   --   modifiers   = {mod.super, mod.shift},
+   --   key         = 'h',
+   --   description = 'increase the number of master clients',
+   --   group       = 'layout',
+   --   on_press    = function() awful.tag.incnmaster(1, nil, true) end,
+   --},
+   --awful.key{
+   --   modifiers   = {mod.super, mod.shift},
+   --   key         = 'l',
+   --   description = 'decrease the number of master clients',
+   --   group       = 'layout',
+   --   on_press    = function() awful.tag.incnmaster(-1, nil, true) end,
+   --},
    awful.key{
       modifiers   = {mod.super, mod.ctrl},
       key         = 'h',

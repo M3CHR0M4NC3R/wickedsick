@@ -6,9 +6,10 @@ local beautiful = require'beautiful'
 local wibox = require'wibox'
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
+local gears = require'gears'
 
 --import battery widget from external library
-local battery_widget = require('modules.battery-widget')
+--local battery_widget = require('modules.battery-widget')
 
 local apps = require'config.apps'
 local mod = require'bindings.mod'
@@ -16,26 +17,37 @@ local mod = require'bindings.mod'
 _M.awesomemenu = {
    {'hotkeys', function() hotkeys_popup.show_help(nil, awful.screen.focused()) end},
    {'manual', apps.manual_cmd},
-   {'edit config', apps.terminal_folder_cmd .. ' .config/awesome '},
+   {'edit config', apps.terminal .. " -e zsh -c \'cd .config/awesome && nvim\'"},
    {'restart', awesome.restart},
    {'quit', function() awesome.quit() end},
 }
 
+_M.settings = {
+   {'audio', apps.terminal .. ' -e pamix'},
+   {'wallpaper', 'nitrogen'},
+   {'displays', 'arandr'},
+   {'bluetooth', apps.terminal .. ' -e bluetui'},
+   {'network', apps.terminal .. ' -e nmtui'}
+}
+
 _M.powermenu = {
+   {'lock', gears.filesystem.get_configuration_dir() .. 'scripts/lock.sh'},
    {'suspend', 'systemctl suspend'},
-   {'shut down', 'shutdown now'},
+   {'restart', 'reboot'},
+   {'shut down', 'shutdown now'}
 }
 
 _M.mainmenu = awful.menu{
    items = {
-      {'awesome', _M.awesomemenu, beautiful.awesome_icon},
+      {'awesome', _M.awesomemenu},
+      {'settings', _M.settings},
       {'open terminal', apps.terminal},
-      {'power', _M.powermenu, beautiful.awesome_icon},
+      {'power', _M.powermenu},
    }
 }
 
 _M.launcher = awful.widget.launcher{
-   image = beautiful.awesome_icon,
+   image = beautiful.arch_icon,
    menu = _M.mainmenu
 }
 
@@ -125,25 +137,9 @@ function _M.create_tasklist(s)
       screen = s,
       filter = awful.widget.tasklist.filter.currenttags,
       layout   = {
-        spacing = dpi(5),
+        spacing = dpi(3),
         layout  = wibox.layout.fixed.horizontal
       },
-      --widget_template = {
-      --  {
-      --      {
-      --          {
-      --              id     = "text_role",
-      --              widget = wibox.widget.textbox,
-      --          },
-      --          layout = wibox.layout.fixed.horizontal,
-      --      },
-      --      left  = dpi(3),
-      --      right = dpi(3),
-      --      widget = wibox.container.margin
-      --  },
-      --  id     = "background_role",
-      --  widget = wibox.container.background,
-      --},
       buttons = {
          awful.button{
             modifiers = {},
@@ -167,34 +163,81 @@ function _M.create_tasklist(s)
             button    = 5,
             on_press  = function() awful.client.focus.byidx(1) end
          },
+      },
+      widget_template = {
+        {
+            {
+                {
+                    id = 'text_role',
+                    widget = wibox.widget.textbox,
+                },
+                left = dpi(3),
+                right = dpi(3),
+                widget = wibox.container.margin
+            },
+            widget = wibox.container.constraint,
+            width = dpi(250), -- Fixed width for each tasklist entry
+        },
+        id = 'background_role',
+        widget = wibox.container.background,
       }
    }
 end
 
-function _M.create_wibox(s)
+function _M.create_wibox_top(s)
    return awful.wibar{
-      screen = s,
-      position = 'top',
-      height=beautiful.statusbar_height,
-      widget = {
-         layout = wibox.layout.align.horizontal,
-         -- left widgets
-         {
+    screen = s,
+    position = 'top',
+    height = beautiful.statusbar_height,
+    bg = beautiful.statusbar_background,
+    widget = {
+        layout = wibox.layout.align.horizontal,
+        -- Left widgets
+        {
             layout = wibox.layout.fixed.horizontal,
             _M.launcher,
-            s.taglist,
             s.promptbox,
-         },
-         -- middle widgets
-         s.tasklist,
-         -- right widgets
-         {
+        },
+        -- Middle widgets (centered taglist)
+        {
+            layout = wibox.layout.flex.horizontal,
+            s.taglist,
+        },
+        -- Right widgets
+        {
             layout = wibox.layout.fixed.horizontal,
-            battery_widget {adapter = "BAT0",},
-            wibox.widget.systray(),
             _M.textclock,
             s.layoutbox,
-         }
+        }
+    }
+}
+
+end
+function _M.create_wibox_bottom(s)
+   return awful.wibar{
+      screen = s,
+      position = 'bottom',
+      height=beautiful.statusbar_height,
+      bg=beautiful.statusbar_background,
+      widget = {
+        layout = wibox.layout.align.horizontal,
+        -- Left widgets
+        {
+            layout = wibox.layout.fixed.horizontal,
+            -- Add your left widgets here
+        },
+        -- Middle widgets
+        {
+            layout = wibox.container.place,
+            halign = "center",
+            content_fill_vertical = true,
+            s.tasklist,
+        },
+        -- Right widgets
+        {
+            layout = wibox.layout.fixed.horizontal,
+            -- Add your right widgets here
+        },
       }
    }
 end
