@@ -24,7 +24,7 @@ theme.font = usersettings.fontstyle .." ".. usersettings.fontsize
 
 theme.bg_normal     = colors.surface0
 theme.bg_focus      = colors.base
-theme.bg_urgent     = colors.red
+theme.bg_urgent     = colors.rosewater
 theme.bg_minimize   = "#444444"
 theme.bg_systray    = theme.bg_normal
 
@@ -51,11 +51,12 @@ theme.border_color_marked = colors.red
 -- taglist_[bg|fg]_[focus|urgent|occupied|empty|volatile]
 -- tasklist_[bg|fg]_[focus|urgent]
 theme.tasklist_disable_icon = true
-theme.tasklist_shape_border_width = theme.border_width
+theme.tasklist_shape_border_width = 1
 theme.tasklist_border_color = theme.bg_normal
 theme.tasklist_align = "center"
 theme.tasklist_maximized = ""
 theme.tasklist_floating = ""
+theme.tasklist_minimized = ""
 -- titlebar_[bg|fg]_[normal|focus]
 -- tooltip_[font|opacity|fg_color|bg_color|border_width|border_color]
 -- prompt_[fg|bg|fg_cursor|bg_cursor|font]

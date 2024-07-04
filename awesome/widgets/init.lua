@@ -18,8 +18,8 @@ _M.awesomemenu = {
    {'hotkeys', function() hotkeys_popup.show_help(nil, awful.screen.focused()) end},
    {'manual', apps.manual_cmd},
    {'edit config', apps.terminal .. " -e zsh -c \'cd .config/awesome && nvim\'"},
+   {'edit settings', apps.terminal .. " -e zsh -c \'cd .config/awesome && nvim theme/usersettings.lua\'"},
    {'restart', awesome.restart},
-   {'quit', function() awesome.quit() end},
 }
 
 _M.settings = {
@@ -34,7 +34,7 @@ _M.powermenu = {
    {'lock', gears.filesystem.get_configuration_dir() .. 'scripts/lock.sh'},
    {'suspend', 'systemctl suspend'},
    {'restart', 'reboot'},
-   {'shut down', 'shutdown now'}
+   {'log out', function() awesome.quit() end},
 }
 
 _M.mainmenu = awful.menu{
@@ -84,6 +84,82 @@ function _M.create_layoutbox(s)
       }
    }
 end
+-- Create a textbox widget to display the current tag name
+local current_tag_widget = wibox.widget{
+   widget = wibox.widget.textbox,
+   align = "center",
+   valign = "center",
+   bg = beautiful.colors.text,
+   buttons = {
+         awful.button{
+            modifiers = {mod.super},
+            button    = 3,
+            on_press  = function(t)
+               if client.focus then
+                  client.focus:toggle_tag(t)
+               end
+            end
+         },
+         awful.button{
+            modifiers = {},
+            button    = 4,
+            on_press  = function(t) awful.tag.viewprev(t.screen) end,
+         },
+         awful.button{
+            modifiers = {},
+            button    = 5,
+            on_press  = function(t) awful.tag.viewnext(t.screen) end,
+         },
+      },
+   font = beautiful.font,
+}
+
+-- Function to update the tag name
+local function update_tag_name()
+    local s = awful.screen.focused()
+    local tag = s.selected_tag
+    if tag then
+        current_tag_widget.text = tag.name
+    else
+        current_tag_widget.text = "No Tag"
+    end
+end
+tag.connect_signal("property::selected", function()
+    update_tag_name()
+end)
+local client_class_widget = wibox.widget{
+    widget = wibox.widget.textbox,
+    font = beautiful.font,
+}
+local spotlight_widget = wibox.widget{
+   widget = wibox.widget.textbox,
+   font = beautiful.font,
+   text = "",
+   buttons = {
+         awful.button{
+            modifiers = {},
+            button    = 1,
+            on_press  = function() awful.spawn('rofi -show drun') end,
+         },
+   }
+}
+
+
+-- Function to update the wm_class
+local function update_client_class()
+    local c = client.focus
+    if c then
+        client_class_widget.text = c.class or "No Class"
+    else
+        client_class_widget.text = "Desktop"
+    end
+end
+client.connect_signal("focus", function()
+    update_client_class()
+end)
+client.connect_signal("unfocus", function()
+    update_client_class()
+end)
 
 function _M.create_taglist(s)
    return awful.widget.taglist{
@@ -186,26 +262,32 @@ end
 
 function _M.create_wibox_top(s)
    return awful.wibar{
-    screen = s,
-    position = 'top',
-    height = beautiful.statusbar_height,
-    bg = beautiful.statusbar_background,
-    widget = {
+   screen = s,
+   position = 'top',
+   height = beautiful.statusbar_height,
+   bg = beautiful.statusbar_background,
+   widget = {
         layout = wibox.layout.align.horizontal,
+         expand = "none",
         -- Left widgets
         {
             layout = wibox.layout.fixed.horizontal,
+            spacing = dpi(10),
             _M.launcher,
+            client_class_widget,
             s.promptbox,
         },
         -- Middle widgets (centered taglist)
         {
             layout = wibox.layout.flex.horizontal,
             s.taglist,
+            --current_tag_widget,
         },
         -- Right widgets
         {
             layout = wibox.layout.fixed.horizontal,
+            spacing = dpi(10),
+            spotlight_widget,
             _M.textclock,
             s.layoutbox,
         }
