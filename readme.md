@@ -7,6 +7,18 @@ file from the awesome menu.
 Style is not consistant throughout, focusing on
 features first.
 
+## Window Menu branch
+Instead of having window titlebars, I'm moving mouse based window control the
+menu bar to save screen space. This raises the issue of moving and resizing
+windows with only the mouse though. 
+This update also brings some changes to the menubars' information display. I
+like having the taglist be pretty symbols so I added a seperate widget that
+explicitly states which tag is active.
+
+BUGS:
+- menu duplicates if you click the window name multiple times
+- menu doesn't go away to the shadow realm if you click outside it
+
 ## Package Requirements
 - awesomewm git
 - alacritty (terminal)
