@@ -7,6 +7,7 @@ local wibox = require'wibox'
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
 local gears = require'gears'
+local lain = require'modules.lain'
 
 --import battery widget from external library
 --local battery_widget = require('modules.battery-widget')
@@ -45,6 +46,28 @@ _M.mainmenu = awful.menu{
       {'power', _M.powermenu},
    }
 }
+--this function returns the end of the string
+--for the window menu icons that have two states
+local function create_window_menu(c)
+   return awful.menu({
+      items = {
+         {'maximize',    function() c.maximized= not c.maximized end, beautiful.titlebar_maximized_button_normal_inactive},
+         {'minimize',    function() c.minimized= true end, beautiful.titlebar_minimize_button_normal},
+         {'keep on top', function() c.ontop= not c.ontop end, beautiful.titlebar_ontop_button_normal_inactive},
+         {'sticky',      function() c.sticky= not c.sticky end, beautiful.titlebar_sticky_button_normal_inactive},
+         {'tile',        function() c.floating= not c.floating end, beautiful.titlebar_floating_button_normal_inactive},
+         {'close',       function() c:kill() end, beautiful.titlebar_close_button_normal }
+     }
+   })
+end
+function _M.show_window_menu()
+   local c = client.focus
+   if c then
+      local menu = create_window_menu(c)
+      menu:toggle{}
+   end
+end
+
 
 _M.launcher = awful.widget.launcher{
    image = beautiful.arch_icon,
@@ -119,7 +142,7 @@ local function update_tag_name()
     local s = awful.screen.focused()
     local tag = s.selected_tag
     if tag then
-        current_tag_widget.text = tag.name
+        current_tag_widget.text = "Workspace "..tag.index.." -"
     else
         current_tag_widget.text = "No Tag"
     end
@@ -128,9 +151,16 @@ tag.connect_signal("property::selected", function()
     update_tag_name()
 end)
 local client_class_widget = wibox.widget{
-    widget = wibox.widget.textbox,
-    font = beautiful.font,
+   widget = wibox.widget.textbox,
+   font = beautiful.font,
 }
+client_class_widget:buttons(
+   gears.table.join(
+      awful.button({}, 1, function() _M.show_window_menu() end),
+      awful.button({}, 4, function() awful.client.focus.byidx(-1) end),
+      awful.button({}, 5, function() awful.client.focus.byidx(-1) end)
+   )
+)
 local spotlight_widget = wibox.widget{
    widget = wibox.widget.textbox,
    font = beautiful.font,
@@ -149,7 +179,7 @@ local spotlight_widget = wibox.widget{
 local function update_client_class()
     local c = client.focus
     if c then
-        client_class_widget.text = c.class or "No Class"
+        client_class_widget.text = (c.class:gsub("^%l", string.upper)) or "No Class"
     else
         client_class_widget.text = "Desktop"
     end
@@ -274,14 +304,13 @@ function _M.create_wibox_top(s)
             layout = wibox.layout.fixed.horizontal,
             spacing = dpi(10),
             _M.launcher,
+            current_tag_widget,
             client_class_widget,
-            s.promptbox,
         },
         -- Middle widgets (centered taglist)
         {
             layout = wibox.layout.flex.horizontal,
             s.taglist,
-            --current_tag_widget,
         },
         -- Right widgets
         {
@@ -295,6 +324,16 @@ function _M.create_wibox_top(s)
 }
 
 end
+local cpu = lain.widget.cpu {
+    settings = function()
+        widget:set_markup(" " .. cpu_now.usage .. "%")
+    end
+}
+local mem = lain.widget.mem {
+    settings = function()
+        widget:set_markup(" " .. mem_now.perc .. "%")
+    end
+}
 function _M.create_wibox_bottom(s)
    return awful.wibar{
       screen = s,
@@ -303,9 +342,12 @@ function _M.create_wibox_bottom(s)
       bg=beautiful.statusbar_background,
       widget = {
         layout = wibox.layout.align.horizontal,
+         expand = "none",
         -- Left widgets
         {
             layout = wibox.layout.fixed.horizontal,
+            spacing = dpi(10),
+            cpu, mem,
             -- Add your left widgets here
         },
         -- Middle widgets
@@ -318,6 +360,7 @@ function _M.create_wibox_bottom(s)
         -- Right widgets
         {
             layout = wibox.layout.fixed.horizontal,
+            spacing = dpi(10),
             -- Add your right widgets here
         },
       }

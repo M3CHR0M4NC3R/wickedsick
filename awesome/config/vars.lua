@@ -19,13 +19,13 @@ _M.layouts = {
 }
 
 _M.tags = {
-   {name='一', layouts={ awful.layout.suit.floating, awful.layout.suit.tile } },
-   {name='二', layouts=_M.layouts},
-   {name='三', layouts=_M.layouts},
-   {name='四', layouts=_M.layouts},
-   {name='五', layouts=_M.layouts},
-   {name='六', layouts=_M.layouts},
-   {name='七', layouts=_M.layouts}
+   {name='', layouts={ awful.layout.suit.floating, awful.layout.suit.tile } },
+   {name='', layouts=_M.layouts},
+   {name='', layouts=_M.layouts},
+   {name='', layouts=_M.layouts},
+   {name='', layouts=_M.layouts},
+   {name='', layouts=_M.layouts},
+   {name='', layouts=_M.layouts}
 }
 
 local function get_tag_names()

@@ -13,7 +13,6 @@ local gears = require'gears'
 menubar.utils.terminal = apps.terminal
 revelation.init()
 --revelation settings :D
-revelation.tag_name = ''
 
 -- general awesome keys
 awful.keyboard.append_global_keybindings{
@@ -30,6 +29,13 @@ awful.keyboard.append_global_keybindings{
       description = 'show main menu',
       group       = 'awesome',
       on_press    = function() widgets.mainmenu:show() end,
+   },
+   awful.key{
+      modifiers   = {mod.super, mod.shift},
+      key         = 'w',
+      description = 'show window menu',
+      group       = 'awesome',
+      on_press    = function() widgets.show_window_menu(client) end,
    },
    awful.key{
       modifiers   = {mod.super, mod.ctrl},
@@ -71,16 +77,16 @@ awful.keyboard.append_global_keybindings{
       key         = 'f',
       description = 'open file browser',
       group       = 'launcher',
-      --on_press    = function() awful.spawn(apps.fileapp) end,
-      on_press    = function() awful.spawn(apps.terminal_folder_cmd) end,
+      on_press    = function() awful.spawn(apps.fileapp) end,
+      --on_press    = function() awful.spawn(apps.terminal_folder_cmd) end,
    },
-   awful.key{
-      modifiers   = {mod.super},
-      key         = 'r',
-      description = 'run prompt',
-      group       = 'launcher',
-      on_press    = function() awful.screen.focused().promptbox:run() end,
-   },
+   --awful.key{
+   --   modifiers   = {mod.super},
+   --   key         = 'r',
+   --   description = 'run prompt',
+   --   group       = 'launcher',
+   --   on_press    = function() awful.screen.focused().promptbox:run() end,
+   --},
    awful.key{
       modifiers   = {mod.super},
       key         = 'space',
@@ -149,9 +155,16 @@ awful.keyboard.append_global_keybindings{
    awful.key{
       modifiers   = {mod.super},
       key         = 'd',
-      description = 'revelation',
+      description = 'revelation (current tag)',
       group       = 'client',
-      on_press    = revelation,
+      on_press    = function () revelation({curr_tag_only=true}) end,
+   },
+   awful.key{
+      modifiers   = {mod.super, mod.shift},
+      key         = 'd',
+      description = 'revelation (all tags)',
+      group       = 'client',
+      on_press    = function () revelation() end,
    },
    awful.key{
       modifiers = {mod.super},

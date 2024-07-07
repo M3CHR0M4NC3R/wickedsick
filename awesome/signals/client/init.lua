@@ -4,9 +4,9 @@ local wibox = require'wibox'
 local gears = require'gears'
 local beautiful = require'beautiful'
 
-client.connect_signal('mouse::enter', function(c)
-   c:activate{context = 'mouse_enter', raise = false}
-end)
+--client.connect_signal('mouse::enter', function(c)
+--   c:activate{context = 'mouse_enter', raise = false}
+--end)
 
 --rounded corners
 client.connect_signal("manage", function (c)

@@ -13,6 +13,9 @@
 
 -- load luarocks if installed
 pcall(require, 'luarocks.loader')
+local config_path = os.getenv("HOME") .. "/.config/awesome"
+package.path = package.path .. ";" .. config_path .. "/modules/?/init.lua"
+package.path = package.path .. ";" .. config_path .. "/modules/?.lua"
 
 -- load theme
 local beautiful = require'beautiful'

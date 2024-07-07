@@ -24,23 +24,22 @@ theme.font = usersettings.fontstyle .." ".. usersettings.fontsize
 
 theme.bg_normal     = colors.surface0
 theme.bg_focus      = colors.base
-theme.bg_urgent     = colors.rosewater
-theme.bg_minimize   = "#444444"
+theme.bg_urgent     = colors.red
+theme.bg_minimize   = colors.mantle
 theme.bg_systray    = theme.bg_normal
 
 theme.fg_normal     = colors.subtext1
 theme.fg_focus      = colors.text
-theme.fg_urgent     = colors.red
+theme.fg_urgent     = colors.text
 theme.fg_minimize   = colors.subtext2
 
 theme.statusbar_height = dpi(30)
-theme.statusbar_background = colors.crust .. usersettings.opacity
+theme.statusbar_background = colors.surface0 .. usersettings.opacity
 
 theme.hotkeys_modifiers_fg = colors.blue
 
 theme.useless_gap         = dpi(5)
-theme.border_width        = dpi(2)
---theme.border_color_normal = "#000000"
+theme.border_width        = dpi(3)
 theme.border_color_normal = theme.bg_normal
 theme.border_color_active = colors.text
 theme.border_color_marked = colors.red
@@ -49,8 +48,17 @@ theme.border_color_marked = colors.red
 -- overriding the default one when
 -- defined, the sets are:
 -- taglist_[bg|fg]_[focus|urgent|occupied|empty|volatile]
+theme.taglist_bg_focus = colors.surface0
+theme.taglist_bg_urgent = colors.red
+--theme.taglist_bg_occupied = theme.statusbar_background
+--theme.taglist_bg_empty = colors.crust
+
+theme.taglist_fg_focus = colors.text
+theme.taglist_fg_urgent = colors.crust
+theme.taglist_fg_occupied = colors.text
+theme.taglist_fg_empty = colors.surface2
 -- tasklist_[bg|fg]_[focus|urgent]
-theme.tasklist_disable_icon = true
+theme.tasklist_disable_icon = false
 theme.tasklist_shape_border_width = 1
 theme.tasklist_border_color = theme.bg_normal
 theme.tasklist_align = "center"
@@ -65,13 +73,13 @@ theme.tasklist_minimized = ""
 --theme.taglist_bg_focus = "#ff0000"
 
 -- Generate taglist squares:
-local taglist_square_size = dpi(4)
-theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
-    taglist_square_size, theme.fg_normal
-)
-theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
-    taglist_square_size, theme.fg_normal
-)
+--local taglist_square_size = dpi(4)
+--theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
+--    taglist_square_size, theme.fg_normal
+--)
+--theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
+--    taglist_square_size, theme.fg_normal
+--)
 
 -- Variables set for theming notifications:
 -- notification_font
@@ -149,7 +157,7 @@ theme.arch_icon = theme_path .. "icons/archicon.svg"
 
 -- Define the icon theme for application icons. If not set then the icons
 -- from /usr/share/icons and /usr/share/icons/hicolor will be used.
-theme.icon_theme = "papirus-dark"
+theme.icon_theme = "Papirus-Dark"
 
 -- Set different colors for urgent notifications.
 rnotification.connect_signal('request::rules', function()
