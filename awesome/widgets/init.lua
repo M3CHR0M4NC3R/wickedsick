@@ -60,11 +60,11 @@ local function create_window_menu(c)
      }
    })
 end
+_M.windowmenu = {}
 function _M.show_window_menu()
    local c = client.focus
    if c then
-      local menu = create_window_menu(c)
-      menu:toggle{}
+      _M.windowmenu:toggle{}
    end
 end
 
@@ -180,6 +180,7 @@ local function update_client_class()
     local c = client.focus
     if c then
         client_class_widget.text = (c.class:gsub("^%l", string.upper)) or "No Class"
+         _M.windowmenu = create_window_menu(c)
     else
         client_class_widget.text = "Desktop"
     end
@@ -190,6 +191,7 @@ end)
 client.connect_signal("unfocus", function()
     update_client_class()
 end)
+update_client_class()
 
 function _M.create_taglist(s)
    return awful.widget.taglist{

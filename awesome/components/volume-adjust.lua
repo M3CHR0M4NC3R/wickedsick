@@ -44,7 +44,7 @@ local volume_bar = wibox.widget{
    widget = wibox.widget.progressbar,
    shape = gears.shape.rounded_bar,
    color = beautiful.fg_focus,
-   background_color = beautiful.bg_focus,
+   background_color = beautiful.colors.surface1,
    max_value = 100,
    value = 0
 }

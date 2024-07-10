@@ -35,7 +35,7 @@ awful.keyboard.append_global_keybindings{
       key         = 'w',
       description = 'show window menu',
       group       = 'awesome',
-      on_press    = function() widgets.show_window_menu(client) end,
+      on_press    = function() widgets.windowmenu:show() end,
    },
    awful.key{
       modifiers   = {mod.super, mod.ctrl},
@@ -94,6 +94,13 @@ awful.keyboard.append_global_keybindings{
       group       = 'launcher',
       --on_press    = function() menubar.show() end,
       on_press    = function() awful.spawn('rofi -show drun') end,
+   },
+   awful.key{
+      modifiers   = {mod.super},
+      key         = 'r',
+      description = 'open radio selector',
+      group       = 'launcher',
+      on_press    = function() awful.spawn(gears.filesystem.get_configuration_dir() .. 'scripts/rofi-radio.sh', false) end,
    },
 }
 

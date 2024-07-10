@@ -17,46 +17,45 @@ local theme_path = gfs.get_configuration_dir() .. 'theme/'
 
 local theme = {}
 local usersettings = require('theme.usersettings')
-local colors = usersettings.colorscheme
 theme.colors = usersettings.colorscheme
 
 theme.font = usersettings.fontstyle .." ".. usersettings.fontsize
 
-theme.bg_normal     = colors.surface0
-theme.bg_focus      = colors.base
-theme.bg_urgent     = colors.red
-theme.bg_minimize   = colors.mantle
+theme.bg_normal     = theme.colors.surface0
+theme.bg_focus      = theme.colors.base
+theme.bg_urgent     = theme.colors.red
+theme.bg_minimize   = theme.colors.mantle
 theme.bg_systray    = theme.bg_normal
 
-theme.fg_normal     = colors.subtext1
-theme.fg_focus      = colors.text
-theme.fg_urgent     = colors.text
-theme.fg_minimize   = colors.subtext2
+theme.fg_normal     = theme.colors.subtext1
+theme.fg_focus      = theme.colors.text
+theme.fg_urgent     = theme.colors.text
+theme.fg_minimize   = theme.colors.subtext2
 
 theme.statusbar_height = dpi(30)
-theme.statusbar_background = colors.surface0 .. usersettings.opacity
+theme.statusbar_background = theme.colors.surface0 .. usersettings.opacity
 
-theme.hotkeys_modifiers_fg = colors.blue
+theme.hotkeys_modifiers_fg = theme.colors.blue
 
 theme.useless_gap         = dpi(5)
 theme.border_width        = dpi(3)
 theme.border_color_normal = theme.bg_normal
-theme.border_color_active = colors.text
-theme.border_color_marked = colors.red
+theme.border_color_active = theme.colors.text
+theme.border_color_marked = theme.colors.red
 
 -- There are other variable sets
 -- overriding the default one when
 -- defined, the sets are:
 -- taglist_[bg|fg]_[focus|urgent|occupied|empty|volatile]
-theme.taglist_bg_focus = colors.surface0
-theme.taglist_bg_urgent = colors.red
+theme.taglist_bg_focus = theme.colors.surface0
+theme.taglist_bg_urgent = theme.colors.red
 --theme.taglist_bg_occupied = theme.statusbar_background
---theme.taglist_bg_empty = colors.crust
+--theme.taglist_bg_empty = theme.colors.crust
 
-theme.taglist_fg_focus = colors.text
-theme.taglist_fg_urgent = colors.crust
-theme.taglist_fg_occupied = colors.text
-theme.taglist_fg_empty = colors.surface2
+theme.taglist_fg_focus = theme.colors.text
+theme.taglist_fg_urgent = theme.colors.crust
+theme.taglist_fg_occupied = theme.colors.text
+theme.taglist_fg_empty = theme.colors.surface2
 -- tasklist_[bg|fg]_[focus|urgent]
 theme.tasklist_disable_icon = false
 theme.tasklist_shape_border_width = 1
