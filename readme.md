@@ -16,7 +16,9 @@ like having the taglist be pretty symbols so I added a seperate widget that
 explicitly states which tag is active.
 
 BUGS:
-- menu duplicates if you click the window name multiple times
+- ~~menu duplicates if you click the window name multiple times~~
+    fixed by generating the menu when focus changes instead of when the widget
+    is clicked. This is kinda wasteful, but otherwise it won't be toggleable.
 - menu doesn't go away to the shadow realm if you click outside it
 
 ## Package Requirements
