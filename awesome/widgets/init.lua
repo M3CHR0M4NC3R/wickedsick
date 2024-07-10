@@ -48,6 +48,7 @@ _M.mainmenu = awful.menu{
 }
 --this function returns the end of the string
 --for the window menu icons that have two states
+_M.windowmenu = awful.menu({})
 local function create_window_menu(c)
    return awful.menu({
       items = {
@@ -60,7 +61,6 @@ local function create_window_menu(c)
      }
    })
 end
-_M.windowmenu = {}
 function _M.show_window_menu()
    local c = client.focus
    if c then
@@ -178,6 +178,7 @@ local spotlight_widget = wibox.widget{
 -- Function to update the wm_class
 local function update_client_class()
     local c = client.focus
+   _M.windowmenu:hide{}
     if c then
         client_class_widget.text = (c.class:gsub("^%l", string.upper)) or "No Class"
          _M.windowmenu = create_window_menu(c)
