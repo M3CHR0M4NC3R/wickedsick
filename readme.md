@@ -19,7 +19,9 @@ BUGS:
 - ~~menu duplicates if you click the window name multiple times~~
     fixed by generating the menu when focus changes instead of when the widget
     is clicked. This is kinda wasteful, but otherwise it won't be toggleable.
-- menu doesn't go away to the shadow realm if you click outside it
+- ~~menu doesn't go away to the shadow realm if you click outside it~~
+    fixed on accident by killing existing window menu when a new one is
+generated
 
 ## Package Requirements
 - awesomewm git
@@ -36,6 +38,7 @@ BUGS:
 - awesome-switcher
 - battery-widget (optional)
 - revelation
+- lain
 
 ## Planned Features
 - Control Center Widget
