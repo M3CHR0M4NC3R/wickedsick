@@ -46,14 +46,34 @@ _M.mainmenu = awful.menu{
       {'power', _M.powermenu},
    }
 }
---this function returns the end of the string
---for the window menu icons that have two states
+
+_M.desktopmenu = awful.menu{
+   items = {
+   {'web browser', apps.webbrowser},
+   {'files', function() awful.spawn(apps.fileapp) end},
+   {'email', apps.emailclient},
+   {'obsidian', 'obsidian'},
+   {'spotify', 'spotify-launcher'},
+   {'discord', 'discord'},
+   }
+}
 _M.windowmenu = awful.menu({})
+
+local function create_tag_menu(c)
+    local tags = {}
+    for _, t in ipairs(c.screen.tags) do
+        table.insert(tags, { "Workspace "..t.index, function() c:move_to_tag(t) end })
+    end
+    return tags
+end
+
 local function create_window_menu(c)
+   local tag_submenu = create_tag_menu(c)
    return awful.menu({
       items = {
          {'maximize',    function() c.maximized= not c.maximized end, beautiful.titlebar_maximized_button_normal_inactive},
          {'minimize',    function() c.minimized= true end, beautiful.titlebar_minimize_button_normal},
+         {'send to', tag_submenu},
          {'keep on top', function() c.ontop= not c.ontop end, beautiful.titlebar_ontop_button_normal_inactive},
          {'sticky',      function() c.sticky= not c.sticky end, beautiful.titlebar_sticky_button_normal_inactive},
          {'tile',        function() c.floating= not c.floating end, beautiful.titlebar_floating_button_normal_inactive},
