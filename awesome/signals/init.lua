@@ -4,4 +4,5 @@ return {
    screen  = require'signals.screen',
    client  = require'signals.client',
    ruled   = require'signals.ruled',
+   hot_corners   = require'signals.hot-corners',
 }

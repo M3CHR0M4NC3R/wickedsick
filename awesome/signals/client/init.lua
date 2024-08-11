@@ -65,3 +65,16 @@ client.connect_signal('request::titlebars', function(c)
    }
 end)
 
+-- Raises plank only when mouse enter
+client.connect_signal("mouse::enter", function(c)
+    if c.class == "Plank" then
+        c.above = true
+    end
+end)
+
+-- Places plank below other clients when mouse leave
+client.connect_signal("mouse::leave", function(c)
+    if c.class == "Plank" then
+        c.above = false
+    end
+end)

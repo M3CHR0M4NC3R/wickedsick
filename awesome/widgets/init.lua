@@ -24,18 +24,27 @@ _M.awesomemenu = {
 }
 
 _M.settings = {
-   {'audio', apps.terminal .. ' -e pamix'},
+   {'audio', 'pavucontrol-qt'},
    {'wallpaper', 'nitrogen'},
    {'displays', 'arandr'},
    {'bluetooth', apps.terminal .. ' -e bluetui'},
    {'network', apps.terminal .. ' -e nmtui'}
 }
 
+_M.poweroffconfirm = {
+   {'cancel', ''},
+   {'confirm', 'shutdown now'}
+}
+_M.rebootconfirm = {
+   {'cancel', ''},
+   {'confirm', 'reboot'}
+}
 _M.powermenu = {
    {'lock', gears.filesystem.get_configuration_dir() .. 'scripts/lock.sh'},
    {'suspend', 'systemctl suspend'},
-   {'restart', 'reboot'},
+   {'restart', _M.rebootconfirm},
    {'log out', function() awesome.quit() end},
+   {'power off', _M.poweroffconfirm},
 }
 
 _M.mainmenu = awful.menu{
@@ -62,7 +71,7 @@ _M.windowmenu = awful.menu({})
 local function create_tag_menu(c)
     local tags = {}
     for _, t in ipairs(c.screen.tags) do
-        table.insert(tags, { "Workspace "..t.index, function() c:move_to_tag(t) end })
+        table.insert(tags, { "Tag "..t.index, function() c:move_to_tag(t) end })
     end
     return tags
 end
@@ -162,7 +171,7 @@ local function update_tag_name()
     local s = awful.screen.focused()
     local tag = s.selected_tag
     if tag then
-        current_tag_widget.text = "Workspace "..tag.index.." -"
+        current_tag_widget.text = "Tag "..tag.index.." -"
     else
         current_tag_widget.text = "No Tag"
     end
@@ -193,6 +202,7 @@ local spotlight_widget = wibox.widget{
          },
    }
 }
+local spotify_widget = require("modules.awesome-wm-widgets.spotify-widget.spotify")
 
 
 -- Function to update the wm_class
@@ -200,9 +210,14 @@ local function update_client_class()
     local c = client.focus
    _M.windowmenu:hide{}
     if c then
-        client_class_widget.text = (c.class:gsub("^%l", string.upper)) or "No Class"
+        local name = (c.class:gsub("^%l", string.upper)) or "No Class"
+         if name == "Pcmanfm-qt" then
+            name = "Files (" .. c.name .. ")"
+         end
+         client_class_widget.text = name
          _M.windowmenu = create_window_menu(c)
     else
+         _M.windowmenu = awful.menu({})
         client_class_widget.text = "Desktop"
     end
 end
@@ -265,6 +280,7 @@ function _M.create_tasklist(s)
    return awful.widget.tasklist{
       screen = s,
       filter = awful.widget.tasklist.filter.currenttags,
+      --filter   = awful.widget.tasklist.filter.allscreen,
       layout   = {
         spacing = dpi(3),
         layout  = wibox.layout.fixed.horizontal
@@ -293,32 +309,39 @@ function _M.create_tasklist(s)
             on_press  = function() awful.client.focus.byidx(1) end
          },
       },
-      widget_template = {
-        {
-            {
-                {
-                    id = 'text_role',
-                    widget = wibox.widget.textbox,
-                },
-                left = dpi(3),
-                right = dpi(3),
-                widget = wibox.container.margin
-            },
-            widget = wibox.container.constraint,
-            width = dpi(250), -- Fixed width for each tasklist entry
-        },
-        id = 'background_role',
-        widget = wibox.container.background,
-      }
+      --widget_template = {
+      --  {
+      --      {
+      --          {
+      --              id = 'text_role',
+      --              widget = wibox.widget.textbox,
+      --          },
+      --          left = dpi(3),
+      --          right = dpi(3),
+      --          widget = wibox.container.margin
+      --      },
+      --      widget = wibox.container.constraint,
+      --      width = dpi(250), -- Fixed width for each tasklist entry
+      --  },
+      --  id = 'background_role',
+      --  widget = wibox.container.background,
+      --}
    }
 end
 
 function _M.create_wibox_top(s)
-   return awful.wibar{
+   return wibox{
    screen = s,
-   position = 'top',
-   height = beautiful.statusbar_height,
+   width=(s.geometry.width-beautiful.border_width*2)*beautiful.statusbar_width,
+   x=(((s.geometry.width)-((s.geometry.width-beautiful.border_width*2)*beautiful.statusbar_width))/2)-beautiful.border_width,
+   y=0,
+   height=beautiful.statusbar_height,
    bg = beautiful.statusbar_background,
+   border_width = beautiful.border_width,
+   border_color = beautiful.border_color_active,
+   visible=false,
+   ontop=true,
+   type='dock',
    widget = {
         layout = wibox.layout.align.horizontal,
          expand = "none",
@@ -330,15 +353,20 @@ function _M.create_wibox_top(s)
             current_tag_widget,
             client_class_widget,
         },
-        -- Middle widgets (centered taglist)
+        -- Middle widgets
         {
             layout = wibox.layout.flex.horizontal,
+            --s.tasklist,
             s.taglist,
         },
         -- Right widgets
         {
             layout = wibox.layout.fixed.horizontal,
             spacing = dpi(10),
+            spotify_widget({
+               font = beautiful.font,
+               max_length = 50,
+            }),
             spotlight_widget,
             _M.textclock,
             s.layoutbox,
@@ -358,11 +386,18 @@ local mem = lain.widget.mem {
     end
 }
 function _M.create_wibox_bottom(s)
-   return awful.wibar{
+   return wibox{
       screen = s,
-      position = 'bottom',
+      width=(s.geometry.width-beautiful.border_width*2)*beautiful.statusbar_width,
+      x=(((s.geometry.width)-((s.geometry.width-beautiful.border_width*2)*beautiful.statusbar_width))/2)-beautiful.border_width,
+      y=s.geometry.height-beautiful.statusbar_height-(2*beautiful.border_width),
       height=beautiful.statusbar_height,
       bg=beautiful.statusbar_background,
+      border_width = beautiful.border_width,
+      border_color = beautiful.border_color_active,
+      visible=false,
+      ontop=true,
+      type='dock',
       widget = {
         layout = wibox.layout.align.horizontal,
          expand = "none",
@@ -371,7 +406,6 @@ function _M.create_wibox_bottom(s)
             layout = wibox.layout.fixed.horizontal,
             spacing = dpi(10),
             cpu, mem,
-            -- Add your left widgets here
         },
         -- Middle widgets
         {
@@ -384,7 +418,7 @@ function _M.create_wibox_bottom(s)
         {
             layout = wibox.layout.fixed.horizontal,
             spacing = dpi(10),
-            -- Add your right widgets here
+            wibox.widget.systray,
         },
       }
    }

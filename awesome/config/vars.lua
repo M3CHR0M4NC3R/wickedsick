@@ -20,7 +20,7 @@ _M.layouts = {
 
 _M.tags = {
    {name='', layouts={ awful.layout.suit.floating, awful.layout.suit.tile } },
-   {name='', layouts=_M.layouts},
+   {name='', layouts=_M.layouts},
    {name='', layouts=_M.layouts},
    {name='', layouts=_M.layouts},
    {name='', layouts=_M.layouts},

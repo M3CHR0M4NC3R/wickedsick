@@ -33,12 +33,17 @@ theme.fg_urgent     = theme.colors.text
 theme.fg_minimize   = theme.colors.subtext2
 
 theme.statusbar_height = dpi(30)
-theme.statusbar_background = theme.colors.surface0 .. usersettings.opacity
+theme.statusbar_width = 1
+
+--accepts a percentage
+theme.statusbar_background = theme.colors.base .. usersettings.opacity
+theme.bg_systray=theme.statusbar_background
 
 theme.hotkeys_modifiers_fg = theme.colors.blue
 
-theme.useless_gap         = dpi(5)
-theme.border_width        = dpi(3)
+theme.useless_gap         = usersettings.gap
+theme.gap_single_client = false
+theme.border_width        = usersettings.border
 theme.border_color_normal = theme.bg_normal
 theme.border_color_active = theme.colors.text
 theme.border_color_marked = theme.colors.red

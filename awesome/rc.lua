@@ -35,6 +35,11 @@ require'signals'
 
 --load components
 require'components.volume-adjust'
+require'components.brightness-adjust'
+
+--load hot corners
+require'modules.hot-corners'
 
 --autostarts
 awful.spawn.with_shell("picom", false)
+awful.spawn.with_shell("lxpolkit", false)

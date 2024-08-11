@@ -393,14 +393,36 @@ awful.keyboard.append_global_keybindings{
       key         = 'XF86MonBrightnessUp',
       description = 'increase brightness',
       group       = 'system',
-      on_press    = function() awful.spawn(gears.filesystem.get_configuration_dir() .. 'scripts/brightness.sh up', false) end,
+      on_press    = function() awful.spawn(gears.filesystem.get_configuration_dir() .. 'scripts/brightness.sh up', false)
+      awesome.emit_signal("brightness_change")
+      end,
    },
    awful.key{
       modifiers   = {},
       key         = 'XF86MonBrightnessDown',
       description = 'decrease brightness',
       group       = 'system',
-      on_press    = function() awful.spawn(gears.filesystem.get_configuration_dir() .. 'scripts/brightness.sh down', false) end,
+      on_press    = function() awful.spawn(gears.filesystem.get_configuration_dir() .. 'scripts/brightness.sh down', false)
+      awesome.emit_signal("brightness_change")
+      end,
+   },
+   awful.key{
+      modifiers   = {mod.super},
+      key         = 'Up',
+      description = 'increase brightness',
+      group       = 'system',
+      on_press    = function() awful.spawn(gears.filesystem.get_configuration_dir() .. 'scripts/brightness.sh up', false)
+      awesome.emit_signal("brightness_change")
+      end,
+   },
+   awful.key{
+      modifiers   = {mod.super},
+      key         = 'Down',
+      description = 'decrease brightness',
+      group       = 'system',
+      on_press    = function() awful.spawn(gears.filesystem.get_configuration_dir() .. 'scripts/brightness.sh down', false)
+      awesome.emit_signal("brightness_change")
+      end,
    },
    awful.key{
       modifiers   = {},
