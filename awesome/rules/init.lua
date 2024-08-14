@@ -1,5 +1,6 @@
 local awful = require'awful'
 local ruled = require'ruled'
+local beautiful = require'beautiful'
 
 ruled.client.connect_signal('request::rules', function()
    -- All clients will match this rule.
@@ -59,11 +60,11 @@ ruled.client.connect_signal('request::rules', function()
    }
 
    -- Add titlebars to normal clients and dialogs
-   --ruled.client.append_rule{
-   --   id         = 'titlebars',
-   --   rule_any   = {type = {'normal', 'dialog'}},
-   --   properties = {titlebars_enabled = true},
-   --}
+   ruled.client.append_rule{
+      id         = 'titlebars',
+      rule_any   = {type = {'normal', 'dialog'}},
+      properties = {titlebars_enabled = beautiful.titlebars_enabled},
+   }
 
    -- Set Firefox to always map on the tag named '2' on screen 1.
    -- ruled.client.append_rule {

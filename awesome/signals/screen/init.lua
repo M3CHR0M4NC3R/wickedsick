@@ -7,14 +7,14 @@ local widgets = require'widgets'
 local gears = require'gears'
 local function create_bar_timer_top(s)
    return gears.timer({
-      timeout=.5,
+      timeout=.25,
       autostart=false,
       callback=function() s.wibox_top.visible=false end,
    })
 end
 local function create_bar_timer_bottom(s)
    return gears.timer({
-      timeout=.5,
+      timeout=.25,
       autostart=false,
       callback=function() s.wibox_bottom.visible=false end,
    })
@@ -27,9 +27,9 @@ screen.connect_signal('request::desktop_decoration', function(s)
    s.taglist   = widgets.create_taglist(s)
    s.tasklist  = widgets.create_tasklist(s)
    --create both bars and their timers
-   s.wibox_top = widgets.create_wibox_top(s)
+   s.wibox_top = widgets.bars.top_bar.create_wibox_top(s)
    s.top_timer = create_bar_timer_top(s)
-   s.wibox_bottom = widgets.create_wibox_bottom(s)
+   s.wibox_bottom = widgets.bars.bottom_bar.create_wibox_bottom(s)
    s.bottom_timer = create_bar_timer_bottom(s)
    --signal catchers; reset timer when mouse re-enters, and disable the bar when the mouse remains gone
    s.wibox_top:connect_signal("mouse::enter", function()

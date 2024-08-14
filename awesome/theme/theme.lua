@@ -69,6 +69,8 @@ theme.tasklist_align = "center"
 theme.tasklist_maximized = ""
 theme.tasklist_floating = ""
 theme.tasklist_minimized = ""
+
+theme.titlebars_enabled=usersettings.titlebars_enabled
 -- titlebar_[bg|fg]_[normal|focus]
 -- tooltip_[font|opacity|fg_color|bg_color|border_width|border_color]
 -- prompt_[fg|bg|fg_cursor|bg_cursor|font]
