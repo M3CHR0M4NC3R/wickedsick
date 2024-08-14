@@ -33,7 +33,7 @@ theme.fg_urgent     = theme.colors.text
 theme.fg_minimize   = theme.colors.subtext2
 
 theme.statusbar_height = dpi(30)
-theme.statusbar_width = 1
+theme.statusbar_width = .9
 
 --accepts a percentage
 theme.statusbar_background = theme.colors.base .. usersettings.opacity

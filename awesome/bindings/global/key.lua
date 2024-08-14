@@ -10,6 +10,8 @@ local mod = require'bindings.mod'
 local widgets = require'widgets'
 local gears = require'gears'
 
+local windowmenu = require'widgets.menus.window-menu'
+
 menubar.utils.terminal = apps.terminal
 revelation.init()
 --revelation settings :D
@@ -35,7 +37,7 @@ awful.keyboard.append_global_keybindings{
       key         = 'w',
       description = 'show window menu',
       group       = 'awesome',
-      on_press    = function() widgets.windowmenu:show() end,
+      on_press    = function() windowmenu.show_window_menu() end,
    },
    awful.key{
       modifiers   = {mod.super, mod.ctrl},

@@ -139,10 +139,6 @@ function _M.create_tasklist(s)
    }
 end
 
-_M.launcher = awful.widget.launcher{
-   image = beautiful.arch_icon,
-   menu = menus.main_menu.main_menu
-}
 
 
 _M.menus=menus
