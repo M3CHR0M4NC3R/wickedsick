@@ -11,7 +11,7 @@ ruled.client.connect_signal('request::rules', function()
          focus     = awful.client.focus.filter,
          raise     = true,
          screen    = awful.screen.preferred,
-         placement = awful.placement.no_overlap + awful.placement.no_offscreen
+         placement = awful.placement.no_overlap + awful.placement.no_offscreen + awful.placement.centered
       }
    }
 
@@ -34,11 +34,14 @@ ruled.client.connect_signal('request::rules', function()
             'pcmanfm',
             'nitrogen',
             'mpv',
+            'zenity',
+            'median xl launcher exe',
          },
          -- Note that the name property shown in xprop might be set slightly after creation of the client
          -- and the name shown there might not match defined rules here.
          name = {
             'Event Tester',  -- xev.
+            'D2Stats',
          },
          role = {
             'AlarmWindow',    -- Thunderbird's calendar.
@@ -63,14 +66,18 @@ ruled.client.connect_signal('request::rules', function()
    ruled.client.append_rule{
       id         = 'titlebars',
       rule_any   = {type = {'normal', 'dialog'}},
+      except_any={class={
+         'steam',
+         'blanket',
+         'zenity',
+         'Zathura',
+         'Alacritty'
+         }
+      },
       properties = {titlebars_enabled = beautiful.titlebars_enabled},
    }
 
-   -- Set Firefox to always map on the tag named '2' on screen 1.
-   -- ruled.client.append_rule {
-   --    rule       = {class = 'Firefox'},
-   --    properties = {screen = 1, tag = '2'}
-   -- }
+
    ruled.client.append_rule {
       rule = { class = "Plank" },
       properties = {

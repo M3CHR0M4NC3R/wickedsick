@@ -1,14 +1,15 @@
 @import "~/.config/rofi/catppuccin-frappe.rasi"
 configuration {
-	font: "JetBrains Mono 16";
+	font: "Noto Sans Mono 16";
 	terminal: "alacritty";
 	show-icons: true;
-	icon-theme: "Papirus-Dark";
-	modi: "drun,window";
+	icon-theme: "Hatter";
+	modi: "window,run,combi";
 	display-drun: "󰀻 Applications";
 	display-window: " Windows";
 	display-emoji: "😃 Emojis";
 	drun-display-format:        "{name}";
+	window-display-format:        "{name}";
 	window-format:              "{w} · {c} · {t}";
 }
 element-icon {
@@ -22,9 +23,10 @@ window {
 	width: 30%;
 	border: 0;
 	padding: 1%;
-	border-radius: 15;
+	border-radius: 18;
+    border: 3;
 	dynamic: true;
-	require-input: false;
+	require-input: true;
 	transparency: "real";
 	location: center;
 	anchor: north;
@@ -35,7 +37,7 @@ mode-switcher{
 }
 button {
 	padding: 0.5%;
-	border-radius: 15;
+	border-radius: 18;
 	border: 3;
 	border-color: @color7;
 }
@@ -47,10 +49,11 @@ listview {
 	lines: 5;
 	fixed-height: false;
 	border: 0;
+	require-input: true;
 }
 element {
 	spacing: 1%;
-	border-radius: 15;
+	border-radius: 18;
 }
 element-text{
 	horizontal-align: 0;

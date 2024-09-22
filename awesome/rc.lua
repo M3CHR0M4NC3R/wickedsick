@@ -24,6 +24,7 @@ local awful = require'awful'
 beautiful.init(gears.filesystem.get_configuration_dir() .. 'theme/theme.lua')
 --beautiful.init(gears.filesystem.get_themes_dir() .. 'default/theme.lua')
 
+require'modules.bling'
 -- load key and mouse bindings
 require'bindings'
 

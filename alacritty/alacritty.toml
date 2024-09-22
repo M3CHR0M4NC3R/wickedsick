@@ -1,31 +1,22 @@
 import = [
-  # uncomment the flavour you want below:
-  #"~/.config/alacritty/catppuccin-latte.toml"
-  "~/.config/alacritty/catppuccin-frappe.toml"
-  # "~/.config/alacritty/catppuccin-macchiato.toml"
-  # "~/.config/alacritty/catppuccin-mocha.toml"
+	"~/.config/alacritty/catppuccin-frappe.toml"
 ]
 [font]
-size = 12.0
-
-[font.bold]
-family = "JetBrains Mono"
-style = "Bold"
-
-[font.bold_italic]
-family = "JetBrains Mono"
-style = "Bold Italic"
-
-[font.italic]
-family = "JetBrains Mono"
-style = "Italic"
-
-[font.normal]
-family = "JetBrains Mono"
-style = "Regular"
-
-[window]
-opacity=0.9
+#normal = {family = "CozetteVector", style = "regular"}
+#bold = {family = "CozetteVector", style = "bold"}
+#italic = {family = "CozetteVector", style = "italic"}
+#bold_italic= {family = "CozetteVector", style = "bold italic"}
+normal = {family = "JetBrains Mono", style = "regular"}
+bold = {family = "JetBrains Mono", style = "bold"}
+italic = {family = "JetBrains Mono", style = "italic"}
+bold_italic= {family = "JetBrains Mono", style = "bold italic"}
+size = 13.0
+offset.x = 0  # For letter spacing (default: 0)
+offset.y = 0 # For line spacing (default: 0)
 
 [env]
-WINIT_X11_SCALE_FACTOR="1"
+TERM = "xterm-256color"
+
+[window]
+dynamic_padding = true
+opacity=1

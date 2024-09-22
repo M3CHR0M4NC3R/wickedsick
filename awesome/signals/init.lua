@@ -5,4 +5,5 @@ return {
    client  = require'signals.client',
    ruled   = require'signals.ruled',
    hot_corners   = require'signals.hot-corners',
+   revelation_signals = require'signals.revelation',
 }

@@ -4,8 +4,10 @@
 
 local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
-local rnotification = require("ruled.notification")
 local dpi = xresources.apply_dpi
+local rnotification = require("ruled.notification")
+local gears = require'gears'
+local naughty = require("naughty")
 --wallpaper :D
 local awful = require'awful'
 awful.spawn.with_shell("nitrogen --restore")
@@ -33,7 +35,7 @@ theme.fg_urgent     = theme.colors.text
 theme.fg_minimize   = theme.colors.subtext2
 
 theme.statusbar_height = dpi(30)
-theme.statusbar_width = .9
+theme.statusbar_width = .95
 
 --accepts a percentage
 theme.statusbar_background = theme.colors.base .. usersettings.opacity
@@ -71,6 +73,10 @@ theme.tasklist_floating = ""
 theme.tasklist_minimized = ""
 
 theme.titlebars_enabled=usersettings.titlebars_enabled
+theme.titlebar_bg_normal=theme.bg_normal
+theme.titlebar_bg_focus=theme.bg_focus
+
+theme.corner_radius = usersettings.corner_radius
 -- titlebar_[bg|fg]_[normal|focus]
 -- tooltip_[font|opacity|fg_color|bg_color|border_width|border_color]
 -- prompt_[fg|bg|fg_cursor|bg_cursor|font]
@@ -92,6 +98,13 @@ theme.titlebars_enabled=usersettings.titlebars_enabled
 -- notification_[bg|fg]
 -- notification_[width|height|margin]
 -- notification_[border_color|border_width|shape|opacity]
+theme.notification_border_width = theme.border_width
+theme.notification_border_shape = function(cr,w,h) gears.shape.rounded_rect(cr,w,h,theme.corner_radius) end
+theme.notification_spacing = usersettings.gaps
+naughty.config.defaults.margin = usersettings.gaps
+naughty.config.defaults.border_width = theme.notification_border_width
+naughty.config.defaults.position = 'top_middle'
+naughty.config.defaults.shape = theme.notification_border_shape
 
 -- Variables set for theming the menu:
 -- menu_[bg|fg]_[normal|focus]
